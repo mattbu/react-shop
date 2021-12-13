@@ -1,0 +1,24 @@
+$main: black;
+.blue {
+  color: $main;
+}
+
+@mixin test() {
+  background-color: #eee;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.stock-alert {
+  @include test();
+  margin-top: 12px;
+  p {
+    margin: 0 auto;
+  }
+}
+
+.stock-alert-aquamarine {
+  @extend .stock-alert;
+  background-color: aquamarine;
+}
