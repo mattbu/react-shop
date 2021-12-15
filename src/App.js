@@ -1,36 +1,40 @@
 /* eslint-disable */
-import React, { useState } from "react";
-import { Navbar, Container, Row, Col, Nav, NavDropdown, Button, Spinner } from "react-bootstrap";
-import "./App.scss";
-import ShoesList from "./components/shoesList";
-import Detail from "./components/Detail";
-import Data from "./data";
-import axios from "axios";
+import React, { useState } from "react"
+import { Navbar, Container, Row, Col, Nav, Button, Spinner } from "react-bootstrap"
+import "./App.scss"
+import ShoesList from "./components/shoesList"
+import Detail from "./components/Detail"
+import Cart from "./components/Cart"
+import Data from "./data"
+import axios from "axios"
 
-import { Link, Route, Switch } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom"
+
+export const stockContext = React.createContext()
+
 function App() {
-  const [shoes, setShoes] = useState(Data);
-  const [stock, setStock] = useState([10, 11, 12]);
+  const [shoes, setShoes] = useState(Data)
+  const [stock, setStock] = useState([10, 11, 12])
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [clickCount, setClickCount] = useState(0);
+  const [clickCount, setClickCount] = useState(0)
 
   const fetchMore = () => {
-    setIsLoading(true);
-    setClickCount(clickCount + 1);
+    setIsLoading(true)
+    setClickCount(clickCount + 1)
     axios
       .get("https://codingapple1.github.io/shop/data2.json")
       .then(res => {
-        setIsLoading(false);
-        const newShoes = [...shoes];
-        newShoes.push(...res.data);
-        setShoes(newShoes);
+        setIsLoading(false)
+        const newShoes = [...shoes]
+        newShoes.push(...res.data)
+        setShoes(newShoes)
       })
       .catch(err => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -47,13 +51,9 @@ function App() {
               <Nav.Link as={Link} to="/detail">
                 Detail
               </Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link as={Link} to="/cart">
+                Cart
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -66,11 +66,13 @@ function App() {
                 <h1 className="p-5 text-center">Black Friday Sale!</h1>
               </Col>
             </Row>
-            <Row>
-              {shoes.map((shoe, index) => {
-                return <ShoesList key={index} shoe={shoe} index={index} />;
-              })}
-            </Row>
+            <stockContext.Provider value={stock}>
+              <Row>
+                {shoes.map((shoe, index) => {
+                  return <ShoesList key={index} shoe={shoe} index={index} />
+                })}
+              </Row>
+            </stockContext.Provider>
             {isLoading ? (
               <Spinner animation="border" role="status">
                 <span className="visually-hidden">Loading...</span>
@@ -86,12 +88,12 @@ function App() {
         <Route path="/detail/:id">
           <Detail shoes={shoes} setShoes={setShoes} stock={stock} setStock={setStock} />
         </Route>
-        <Route path="/:id">
-          <div>아무거</div>
+        <Route path="/cart">
+          <Cart></Cart>
         </Route>
       </Switch>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

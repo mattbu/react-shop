@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Col } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 
+import { stockContext } from "../App";
+
 function ShoesList(props) {
   const history = useHistory();
+  const stock = useContext(stockContext);
   return (
     <Col
       onClick={() => {
@@ -16,6 +19,7 @@ function ShoesList(props) {
         src={`https://codingapple1.github.io/shop/shoes${props.index + 1}.jpg`}
         alt="k"
       />
+      {stock}
       <h4>{props.shoe.title}</h4>
       <p>{props.shoe.content}</p>
       <p>{props.shoe.price}</p>
