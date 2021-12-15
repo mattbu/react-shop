@@ -1,7 +1,8 @@
 import React from "react"
 import { Container, Row, Col, Table } from "react-bootstrap"
+import { connect } from "react-redux"
 
-function Cart() {
+function Cart(props) {
   return (
     <Container>
       <Row>
@@ -16,12 +17,16 @@ function Cart() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-                <td>Table cell</td>
-              </tr>
+              {props.state.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.quantity} 켤레</td>
+                    <td>Table cell</td>
+                  </tr>
+                )
+              })}
             </tbody>
           </Table>
         </Col>
@@ -30,4 +35,11 @@ function Cart() {
   )
 }
 
-export default Cart
+function asd(state) {
+  console.log(state)
+  return {
+    state: state
+  }
+}
+
+export default connect(asd)(Cart)
