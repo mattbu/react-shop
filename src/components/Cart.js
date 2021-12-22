@@ -1,6 +1,12 @@
 import React from "react"
 import { Container, Row, Col, Table } from "react-bootstrap"
 import { connect } from "react-redux"
+import { Button, Spacing } from "react-bootstrap"
+
+const controlQuantity = (type, props, index) => {
+  console.log(props, index)
+  props.dispatch({ type: type, index: index })
+}
 
 function Cart(props) {
   return (
@@ -22,8 +28,16 @@ function Cart(props) {
                   <tr key={index}>
                     <td>{item.id}</td>
                     <td>{item.name}</td>
-                    <td>{item.quantity} 켤레</td>
-                    <td>Table cell</td>
+                    <td className="ml-5">{item.quantity}</td>
+                    <td>
+                      <Button onClick={() => controlQuantity("plus", props, index)}>+</Button>
+                      <Button
+                        className="ms-1"
+                        onClick={() => controlQuantity("minus", props, index)}
+                      >
+                        -
+                      </Button>
+                    </td>
                   </tr>
                 )
               })}
@@ -36,7 +50,6 @@ function Cart(props) {
 }
 
 function asd(state) {
-  console.log(state)
   return {
     state: state
   }
