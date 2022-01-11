@@ -1,4 +1,15 @@
-import { createStore } from "redux"
+import { combineReducers, createStore } from "redux"
+
+const initAlert = true
+
+function reducerB(state = initAlert, action) {
+  if (action.type === "close") {
+    state = false
+    return state
+  } else {
+    return state
+  }
+}
 
 const initState = [
   { id: 0, name: "멋진 신발", quantity: 2 },
@@ -8,7 +19,7 @@ const initState = [
   { id: 4, name: "뉴발란스 992", quantity: 1 }
 ]
 
-function reducer(state = initState, action) {
+function reducerA(state = initState, action) {
   if (action.type === "plus") {
     const copyState = [...initState]
     copyState[action.index].quantity++
@@ -22,4 +33,4 @@ function reducer(state = initState, action) {
   }
 }
 
-export const store = createStore(reducer)
+export const store = createStore(combineReducers({ reducerA, reducerB }))

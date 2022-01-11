@@ -4,8 +4,12 @@ import { connect } from "react-redux"
 import { Button, Spacing } from "react-bootstrap"
 
 const controlQuantity = (type, props, index) => {
-  console.log(props, index)
+  console.log(type, props, index)
   props.dispatch({ type: type, index: index })
+}
+
+const closeAlert = (type, props) => {
+  props.dispatch({ type: type })
 }
 
 function Cart(props) {
@@ -43,16 +47,24 @@ function Cart(props) {
               })}
             </tbody>
           </Table>
+          {props.showAlert ? (
+            <div className="stock-alert">
+              <p>지금 구매하시면 신규할인 200%!</p>
+              <button onClick={() => closeAlert("close", props)}>닫기</button>
+            </div>
+          ) : null}
         </Col>
       </Row>
     </Container>
   )
 }
 
-function asd(state) {
+// state를 props화
+function stateToProps(state) {
   return {
-    state: state
+    state: state.reducerA,
+    showAlert: state.reducerB
   }
 }
 
-export default connect(asd)(Cart)
+export default connect(stateToProps)(Cart)
