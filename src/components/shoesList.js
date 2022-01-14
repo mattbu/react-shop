@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { Col } from "react-bootstrap";
-import { useHistory, useParams } from "react-router-dom";
+import React, { useContext, useEffect } from "react"
+import { Col } from "react-bootstrap"
+import { useHistory, useParams } from "react-router-dom"
 
-import { stockContext } from "../App";
+import { stockContext } from "../App"
 
 function ShoesList(props) {
-  const history = useHistory();
-  const stock = useContext(stockContext);
+  const history = useHistory()
+  const stock = useContext(stockContext)
   return (
     <Col
       onClick={() => {
-        history.push(`/detail/${props.shoe.id}`);
+        history.push(`/detail/${props.shoe.id}`)
       }}
       md={4}
     >
@@ -20,11 +20,11 @@ function ShoesList(props) {
         alt="k"
       />
       {stock}
-      <h4>{props.shoe.title}</h4>
+      <h4>{props.shoe.name}</h4>
       <p>{props.shoe.content}</p>
       <p>{props.shoe.price}</p>
     </Col>
-  );
+  )
 }
 
-export default ShoesList;
+export default ShoesList

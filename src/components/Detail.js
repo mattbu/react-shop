@@ -6,6 +6,7 @@ import "../style/Detail.scss"
 import axios from "axios"
 import { Nav } from "react-bootstrap"
 import { CSSTransition, SwitchTransition } from "react-transition-group"
+import { useSelector, useDispatch } from "react-redux"
 
 let Box = styled.div`
   padding: 20px;
@@ -44,6 +45,8 @@ function Detail(props) {
   const getShoe = async () => {
     const res = await axios.get("https://codingapple1.github.io/shop/data2.json")
   }
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // 컴포넌트 등장 and 업데이트 시 실행됨
@@ -66,7 +69,6 @@ function Detail(props) {
   }, [])
   // 조건 같은 것임 showAlert(스테이트)가 업데이트 될때만,
   // 빈칸 시 등장시만 실행 업데이트 되도 실행x
-
   return (
     <div className="container">
       <div className="row">
@@ -90,7 +92,7 @@ function Detail(props) {
           <img src={`https://codingapple1.github.io/shop/shoes${idx + 1}.jpg`} width="100%" />
         </div>
         <div className="col-md-6 mt-4">
-          <h4 className="pt-5">{shoe.title}</h4>
+          <h4 className="pt-5">{shoe.name}</h4>
           <p>{shoe.content}</p>
           <p>{shoe.price}</p>
           <Info stock={props.stock} index={idx} />
@@ -100,7 +102,11 @@ function Detail(props) {
               const newStock = [...props.stock]
               newStock[idx] = newStock[idx] - 1
               props.setStock(newStock)
-              console.log(newStock)
+              dispatch({
+                type: "throw",
+                payload: { id: shoe.id, name: shoe.name, quantity: shoe.quantity }
+              })
+              history.push("/cart")
             }}
           >
             주문하기

@@ -20,12 +20,21 @@ const initState = [
 ]
 
 function reducerA(state = initState, action) {
+  const copyState = [...state]
+  if (action.type === "throw") {
+    const findSame = copyState.findIndex(item => item.id === action.payload.id)
+    if (findSame >= 0) {
+      copyState[findSame].quantity++
+    } else {
+      copyState.push(action.payload)
+    }
+    return copyState
+  }
   if (action.type === "plus") {
-    const copyState = [...initState]
     copyState[action.index].quantity++
     return copyState
-  } else if (action.type === "minus") {
-    const copyState = [...initState]
+  }
+  if (action.type === "minus") {
     copyState[action.index].quantity--
     return copyState
   } else {

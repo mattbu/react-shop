@@ -9,10 +9,11 @@ import Data from "./data"
 import axios from "axios"
 
 import { Link, Route, Switch } from "react-router-dom"
+import { connect } from "react-redux"
 
 export const stockContext = React.createContext()
 
-function App() {
+function App(props) {
   const [shoes, setShoes] = useState(Data)
   const [stock, setStock] = useState([10, 11, 12])
 
