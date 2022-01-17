@@ -1,19 +1,29 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React, { useState, lazy, Suspense } from "react"
 import { Navbar, Container, Row, Col, Nav, Button, Spinner } from "react-bootstrap"
 import "./App.scss"
 import ShoesList from "./components/shoesList"
-import Detail from "./components/Detail"
+// import Detail from "./components/Detail"
+const Detail = lazy(() => {
+  return import("./components/Detail.js")
+})
+const Parent = lazy(() => {
+  return import("./components/Parent.js")
+})
 import Cart from "./components/Cart"
 import Data from "./data"
 import axios from "axios"
 
 import { Link, Route, Switch } from "react-router-dom"
 import { connect } from "react-redux"
+import { useEffect } from "react"
 
 export const stockContext = React.createContext()
 
 function App(props) {
+  const [count, setCount] = useState(0)
+  const [age, setAge] = useState(20)
+
   const [shoes, setShoes] = useState(Data)
   const [stock, setStock] = useState([10, 11, 12])
 
@@ -36,8 +46,29 @@ function App(props) {
         console.log(err)
       })
   }
+  useEffect(() => {
+    if (count !== 0 && count < 3) {
+      setAge(age + 1)
+    }
+  }, [count])
   return (
     <div className="App">
+      <Container>
+        <Row>
+          <Col md={6}>
+            <h1>ㅎㅇㅎㅇ 내 나이 {age}</h1>
+            <Button
+              onClick={() => {
+                setCount(count + 1)
+                console.log(count)
+                console.log(age)
+              }}
+            >
+              ㅋㅋ
+            </Button>
+          </Col>
+        </Row>
+      </Container>
       <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand as={Link} to="/">
@@ -87,10 +118,17 @@ function App(props) {
           </Container>
         </Route>
         <Route path="/detail/:id">
-          <Detail shoes={shoes} setShoes={setShoes} stock={stock} setStock={setStock} />
+          <Suspense fallback={<Spinner animation="border" />}>
+            <Detail shoes={shoes} setShoes={setShoes} stock={stock} setStock={setStock} />
+          </Suspense>
         </Route>
         <Route path="/cart">
           <Cart></Cart>
+        </Route>
+        <Route path="/example">
+          <Suspense fallback={<Spinner animation="border" />}>
+            <Parent name="hyeounk" age="29"></Parent>
+          </Suspense>
         </Route>
       </Switch>
     </div>

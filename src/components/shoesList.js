@@ -19,7 +19,6 @@ function ShoesList(props) {
         src={`https://codingapple1.github.io/shop/shoes${props.index + 1}.jpg`}
         alt="k"
       />
-      {stock}
       <h4>{props.shoe.name}</h4>
       <p>{props.shoe.content}</p>
       <p>{props.shoe.price}</p>
